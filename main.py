@@ -1,15 +1,22 @@
-from utils import extract_and_load
+import streamlit as st
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
 import os
-import sys
+from utils import extract_and_load # This now refers to the new function
 
-# Check if running on Streamlit Cloud
-if "STREAMLIT_SERVER" in os.environ:
-    zip_path = "archive.zip"  # file in repo
-else:
-    zip_path = r"C:\Users\himan\Downloads\archive (1).zip"  # local path
+st.set_page_config(page_title="📊 Customer Insights Dashboard", layout="wide")
 
-extract_path = os.path.join("extracted_files", "file1")
-df1, _ = extract_and_load(zip_path, extract_path)
+# -------------------------------
+# Load Data
+# -------------------------------
+# Now, `extract_and_load` will get multiple years' data
+df1, _ = extract_and_load(
+    r"C:\Users\himan\Downloads\archive (1).zip",
+    os.path.join("extracted_files", "file1")
+)
 
-print("\n🔹 Columns in File 1 (Sales Data):")
-print(df1.columns.tolist())
+# -------------------------------
+# Data Cleaning & Feature Engineering
+# -------------------------------
+# ... (the rest of your script remains the same)
