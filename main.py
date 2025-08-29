@@ -1,22 +1,17 @@
+# main.py
 import streamlit as st
-import pandas as pd
-import numpy as np
-import matplotlib.pyplot as plt
-import os
-from utils import extract_and_load # This now refers to the new function
+from utils import extract_and_load
+from dashboard import run_dashboard
 
 st.set_page_config(page_title="📊 Customer Insights Dashboard", layout="wide")
 
-# -------------------------------
-# Load Data
-# -------------------------------
-# Now, `extract_and_load` will get multiple years' data
-df1, _ = extract_and_load(
-    r"C:\Users\himan\Downloads\archive (1).zip",
-    os.path.join("extracted_files", "file1")
-)
+ZIP_PATH = r"C:\Users\himan\Downloads\archive (1).zip"
+FOLDER_NAME = ""  # load all CSVs (Sales_Data + Updated_sales.csv). Use "Sales_Data" to load only that folder.
 
-# -------------------------------
-# Data Cleaning & Feature Engineering
-# -------------------------------
-# ... (the rest of your script remains the same)
+df, status = extract_and_load(ZIP_PATH, FOLDER_NAME)
+st.sidebar.info(status)
+
+if df is None or df.empty:
+    st.error("❌ No data loaded. Check ZIP path / folder name.")
+else:
+    run_dashboard(df)
